@@ -21,7 +21,7 @@ This repository consists of a single Python script that generates figures presen
 To reproduce the figures from our manuscript:
 1. Clone this repository
 2. Install the required dependencies (see Requirements section)
-3. Download the supplementary tables (will be available upon publication)
+3. Download the supplementary tables (will be available upon publication) and place them in the script directory
 4. Run the Python script with the appropriate parameters
 ## License
 This project is licensed under the GNU General Public License - see the LICENSE file for details.
