@@ -8,15 +8,15 @@ The code in this repository requires supplementary tables that will be available
 ## Code
 This repository consists of a single Python script that generates figures presented in the manuscript as listed below.
 ## Figures
-Figure 3C: Association between median plasma-to-serum ratio and plasma-serum protein correlation.
-Figure 4: Inter-cohort agreement of scaling parameters.
-Figure S3A-B: Correlations between plasma and serum proteomes.
-Figure S4: Relationship between Pearson-Spearman correlation differences and protein measurability.
-Figure S5: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
-Figure S7B: Concordance between internal and external plasma datasets.
-Figure S8B: Concordance between internal and external serum datasets.
-Figure S9 matched samples: Comparison of linear scaling parameters derived from different cohorts.
-Figure S10: Inter-cohort agreement of serum-plasma protein correlations.
+- Figure 3C: Association between median plasma-to-serum ratio and plasma-serum protein correlation.
+- Figure 4: Inter-cohort agreement of scaling parameters.
+- Figure S3A-B: Correlations between plasma and serum proteomes.
+- Figure S4: Relationship between Pearson-Spearman correlation differences and protein measurability.
+- Figure S5: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
+- Figure S7B: Concordance between internal and external plasma datasets.
+- Figure S8B: Concordance between internal and external serum datasets.
+- Figure S9 matched samples: Comparison of linear scaling parameters derived from different cohorts.
+- Figure S10: Inter-cohort agreement of serum-plasma protein correlations.
 ## Reproducibility
 To reproduce the figures from our manuscript:
 1. Clone this repository
