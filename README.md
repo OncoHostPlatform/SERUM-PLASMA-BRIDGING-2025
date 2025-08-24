@@ -1,18 +1,19 @@
 # SERUM-PLASMA-BRIDGING-2025
 ## Overview
-This repository contains the code used to generate figures for the manuscript "Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies" (currently under submission). This study presents a computational approach for bridging between serum and plasma proteomic datasets derived from the aptamer-based SomaScan assay, enabling cross-specimen data use in the context of the PROphet model designed to predict immunotherapy outcomes.
+This repository contains the code used to generate figures for the manuscript "Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies" (currently under review). This study presents a computational approach for bridging between serum and plasma proteomic datasets derived from the aptamer-based SomaScan assay, enabling cross-specimen data use in the context of the PROphet model designed to predict immunotherapy outcomes.
 ## Citation
-[Authors]. (2025). Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies. GitHub repository: https://github.com/OncoHostPlatform/SERUM-PLASMA-BRIDGING-2025
+If you use this code or data in your research, please cite:
+Lahav, C., Dahan, N., Harel, M., Elon, Y., Sela, I., Geyer, P.E., Schneider, M.A., Muley, T., Bacchiocchi, A., Marte, J., Floudas, C.S., Halaban, R., Sznol, M., Christopoulos, P., Gulley, J.L. Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies. 2025. (Under review)
 ## Data
-The code in this repository requires supplementary tables that will be available upon publication of the manuscript.
+The code in this repository requires supplementary tables that will be available upon publication of the manuscript. Place the files in a subfolder named data.
 ## Code
-This repository consists of a single Python script that generates figures presented in the manuscript as listed below.
+This repository consists of a single Python script `generate_manuscript_figures.py` that generates figures presented in the manuscript as listed below.
 ## Figures
 - Figure 3C: Association between median plasma-to-serum ratio and plasma-serum protein correlation.
-- Figure 4: Inter-cohort agreement of scaling parameters.
-- Figure S3A-B: Correlations between plasma and serum proteomes.
+- Figure 5: Inter-cohort agreement of scaling parameters.
+- Figure S3B: Correlations between plasma and serum proteomes.
 - Figure S4: Relationship between Pearson-Spearman correlation differences and protein measurability.
-- Figure S5: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
+- Figure S5B: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
 - Figure S7B: Concordance between internal and external plasma datasets.
 - Figure S8B: Concordance between internal and external serum datasets.
 - Figure S9 matched samples: Comparison of linear scaling parameters derived from different cohorts.
@@ -23,6 +24,14 @@ To reproduce the figures from our manuscript:
 2. Install the required dependencies (see Requirements section)
 3. Download the supplementary tables (will be available upon publication) and place them in the script directory
 4. Run the Python script with the appropriate parameters
+## Requirements
+This code was developed and tested using `Python 3.12.5`.
+The following package dependencies are required:
+  - `numpy==2.0.2`
+  - `pandas==2.2.3`
+  - `scipy==1.14.1`
+  - `matplotlib==3.9.4`
+  - `seaborn==0.13.2`
 ## License
 This project is licensed under the GNU General Public License - see the LICENSE file for details.
 ## Contact
