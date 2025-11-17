@@ -7,7 +7,10 @@ Lahav, C., Dahan, N., Harel, M., Elon, Y., Sela, I., Geyer, P.E., Schneider, M.A
 ## Data
 The code in this repository requires supplementary tables that will be available upon publication of the manuscript. Place the files in a subfolder named data.
 ## Code
-This repository consists of a single Python script `generate_manuscript_figures.py` that generates figures presented in the manuscript as listed below.
+This repository consists of the following Python files:
+- `generate_manuscript_figures.py` - generates figures presented in the manuscript as listed below.
+- `iterative_scaler.py` - IterativeScaler class for robust z-score standardization that iteratively excludes outliers until convergence.
+- `iqr_outlier_detection.py` - Calculate outlier bounds using the Interquartile Range (IQR) method.
 ## Figures
 - Figure 3C: Association between median plasma-to-serum ratio and plasma-serum protein correlation.
 - Figure 5: Inter-cohort agreement of scaling parameters.

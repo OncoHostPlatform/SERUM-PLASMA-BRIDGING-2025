@@ -1,11 +1,22 @@
+"""
+Created on Thu Aug 1 2024
+
+@author: Coren Lahav
+"""
+
+
+import warnings
 import numpy as np
 import pandas as pd
-
-from scipy.stats import pearsonr, spearmanr, iqr
+from scipy.stats import pearsonr, spearmanr
 
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
+
+from iqr_outlier_detection import detect_outliers_iqr
+
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def percentile(n):
     def percentile_(x):
@@ -21,7 +32,7 @@ def pval_text(pval):
     
     Parameters
     ----------
-        y_true : float
+        pval : float
             p-value
     
     Returns
@@ -62,10 +73,11 @@ print(f'For {pct_significant:.1f}% of the measured proteins, serum and plasma pr
 
 # Plot Figure 3C: Association between median plasma-to-serum ratio and plasma-serum protein correlation.
 CORR_THR = 0.6
-upper_outlier_threshold = np.quantile(np.log2(s1['Plasma to serum ratio']), 0.75) + 1.5 * iqr(np.log2(s1['Plasma to serum ratio']))
-lower_outlier_threshold = np.quantile(np.log2(s1['Plasma to serum ratio']), 0.25) - 1.5 * iqr(np.log2(s1['Plasma to serum ratio']))
+[lower_outlier_threshold, upper_outlier_threshold] = detect_outliers_iqr(np.log2(s1['Plasma to serum ratio']))
 s1 = s1.sort_values(by='Plasma to serum ratio', ascending=False)
-cmap = matplotlib.colors.ListedColormap(['red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'red', 'blue', 'blue', 'blue', 'blue'])
+# Dynamically assign colors: first N are red, rest are blue (example: split at 11)
+num_red = 11; num_blue = 4
+cmap = matplotlib.colors.ListedColormap(['red'] * num_red + ['blue'] * num_blue)
 qtls = s1.loc[s1['Spearman'] >= CORR_THR, 'Plasma to serum ratio'].quantile([0.01,0.99])
 fig = plt.figure(figsize=(12,5))
 plt.scatter(x=s1['Rank'], y=s1['Plasma to serum ratio'].values, c=s1['Spearman'], vmin=-0.5, vmax=1, cmap=cmap)
@@ -87,18 +99,38 @@ cax.ax.set_ylabel('Plasma-serum Spearman corr')
 jg = sns.jointplot(data=s1, x='Pearson', y='Spearman', marginal_ticks=True)
 jg.ax_joint.plot([-0.4,1.02],[-0.4,1.02], c='k', ls='--')
 jg.ax_marg_y.tick_params(axis='x', rotation=270)
-present1 = ['2796-62', '5060-62', '5692-79', '4673-13', '4336-2'] # '4989-7'
-for i, prot in enumerate(present1):
-    halign = 'right'
-    valign = 'bottom'
-    plt.plot(s1.loc[prot, 'Pearson'], s1.loc[prot, 'Spearman'], 'rx')
-    plt.text(s1.loc[prot, 'Pearson'], s1.loc[prot, 'Spearman'], s1.loc[prot, 'Target Name'], horizontalalignment=halign, verticalalignment=valign, fontsize=15)
-present2 = ['16926-44', '9838-4', '13955-33']
-for i, prot in enumerate(present2):
-    halign = 'left'
-    valign = 'top'
-    plt.plot(s1.loc[prot, 'Pearson'], s1.loc[prot, 'Spearman'], 'rx')
-    plt.text(s1.loc[prot, 'Pearson'], s1.loc[prot, 'Spearman'], s1.loc[prot, 'Target Name'], horizontalalignment=halign, verticalalignment=valign, fontsize=15)
+
+# Define proteins to annotate with their label alignment
+PROTEINS_TO_ANNOTATE = {
+    '2796-62': {'ha': 'right', 'va': 'bottom'},
+    '5060-62': {'ha': 'right', 'va': 'bottom'},
+    '5692-79': {'ha': 'right', 'va': 'bottom'},
+    '4673-13': {'ha': 'right', 'va': 'bottom'},
+    '4336-2': {'ha': 'right', 'va': 'bottom'},
+    '16926-44': {'ha': 'left', 'va': 'top'},
+    '9838-4': {'ha': 'left', 'va': 'top'},
+    '13955-33': {'ha': 'left', 'va': 'top'}
+}
+
+# Annotate specific proteins
+for prot_id, alignment in PROTEINS_TO_ANNOTATE.items():
+    if prot_id not in s1.index:
+        print(f"Warning: Protein {prot_id} not found in data")
+        continue
+    
+    x_val = s1.loc[prot_id, 'Pearson']
+    y_val = s1.loc[prot_id, 'Spearman']
+    label = s1.loc[prot_id, 'Target Name']
+    
+    # Plot marker
+    jg.ax_joint.plot(x_val, y_val, marker='x', color='r', markersize=6)
+    
+    # Add label
+    jg.ax_joint.text(x_val, y_val, label,
+        horizontalalignment=alignment['ha'],
+        verticalalignment=alignment['va'],
+        fontsize=15
+    )
 plt.show()
 
 
@@ -113,17 +145,16 @@ ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 plt.show()
 
-
 #%% Load Supplementary Table S9: Medians and difference between internal and external cohorts
 s2 = pd.read_excel(r'data\Supplementary Table S9.xlsx', index_col='SeqId')
 
 # Plot Supplementary Figure S7B: Concordance between internal and external plasma datasets
 # Plot Supplementary Figure S8B: Concordance between internal and external serum datasets. 
 bins = np.linspace(-5.084463885736609, 4.774182194065542, 101)
-ORDER = np.array([['CohortA Plasma, Diff', 'CohortB Plasma, Diff', 'CohortC Plasma, Diff'], ['CohortA Serum, Diff', 'CohortB Serum, Diff', 'CohortC Serum, Diff']])
-fig, axes = plt.subplots(nrows=ORDER.shape[0], ncols=ORDER.shape[1]*2, sharey=True, figsize=(15*0.8,20*0.8),  width_ratios=[2,1]*ORDER.shape[1])
-for j, i in np.ndindex(ORDER.shape):
-    group = ORDER[j, i]
+CONCORD_ORDER = np.array([['CohortA Plasma, Diff', 'CohortB Plasma, Diff', 'CohortC Plasma, Diff'], ['CohortA Serum, Diff', 'CohortB Serum, Diff', 'CohortC Serum, Diff']])
+fig, axes = plt.subplots(nrows=CONCORD_ORDER.shape[0], ncols=CONCORD_ORDER.shape[1]*2, sharey=True, figsize=(15*0.8,20*0.8),  width_ratios=[2,1]*CONCORD_ORDER.shape[1])
+for j, i in np.ndindex(CONCORD_ORDER.shape):
+    group = CONCORD_ORDER[j, i]
     indication = group.split('\n')[0]
     ax = axes[j, i*2]
     sns.histplot(data=s2, y=group, bins=bins, ax=ax, color='C'+str(i))
@@ -150,14 +181,14 @@ s3 = pd.read_excel(r'data\Supplementary Table S12.xlsx', index_col='SeqId')
 
 
 # Plot Supplementary Figure S5B: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
-ORDER = ['Pre-analytical\nexclusions', 'Robust\ncandidates', 'Clinically-relevant\nmarkers']
-order = [o.replace('\n', ' ') for o in ORDER]
-group_protein_count = [(s3['Filter'] == o.replace('\n', ' ')).sum() for o in ORDER]
+FILTER_ORDER_DISPLAY = ['Pre-analytical\nexclusions', 'Robust\ncandidates', 'Clinically-relevant\nmarkers']
+FILTER_ORDER = [o.replace('\n', ' ') for o in FILTER_ORDER_DISPLAY]
+group_protein_count = [(s3['Filter'] == o.replace('\n', ' ')).sum() for o in FILTER_ORDER]
 plt.figure(figsize=(9,6))
-ax = sns.violinplot(s3, x='Filter', y='Spearman_CohortA', hue='Filter', order=order,
-               hue_order=order, palette=['C3', 'C1', 'C2'])
+ax = sns.violinplot(s3, x='Filter', y='Spearman CohortA', hue='Filter', order=FILTER_ORDER,
+               hue_order=FILTER_ORDER, palette=['C3', 'C1', 'C2'])
 ax.set_title('Modeling pipeline preferentially retained\nserum-plasma agreeing proteins')
-plt.xticks([0,1,2], [ORDER[tk] + '\n(n=' + str(group_protein_count[tk]) + ')' for tk in range(len(ORDER))])
+plt.xticks([0,1,2], [FILTER_ORDER_DISPLAY[tk] + '\n(n=' + str(group_protein_count[tk]) + ')' for tk in range(len(FILTER_ORDER))])
 ax.set_xlabel('Protein group')
 ax.set_ylabel("Serum-plasma\nSpearman's r")
 ax.spines['top'].set_visible(False)
@@ -169,10 +200,19 @@ PARAM_LIST = ['Spearman', 'Slope', 'Intercept']
 plt.rcParams.update({'font.size': 20})
 FILTER_LIST = [['Pre-analytical exclusions', 'Robust candidates', 'Clinically-relevant markers'], ['Clinically-relevant markers']]
 fig, axes = plt.subplots(nrows=len(FILTER_LIST), ncols=len(PARAM_LIST), figsize=(20,10))
+def plot_violin_with_line(ax, data, param):
+    """Helper to plot violinplot and add optional horizontal line."""
+    if param == 'Slope':
+        ax.axhline(y=1, c='gray', ls='--', lw=3)
+    elif param == 'Intercept':
+        ax.axhline(y=0, c='gray', ls='--', lw=3)
+    sns.violinplot(data, color='C0', ax=ax)
+
 for p_idx, param in enumerate(PARAM_LIST):  
-    prefix = param + '_'
+    prefix = param + ' '
+    cohorts = np.array(['CohortA', 'CohortB', 'CohortC'])
+    cols = [prefix + c for c in cohorts]
     
-    cols = s3.columns[s3.columns.str.startswith(prefix)]
     plot_df = s3[cols].copy()
     plot_df.rename({col: col[len(prefix):] for col in plot_df.columns}, axis=1, inplace=True)
     
@@ -180,30 +220,24 @@ for p_idx, param in enumerate(PARAM_LIST):
     for f_idx, filtr in enumerate(FILTER_LIST):
         filt = s3['Filter'].isin(filtr)
         ax = axes[f_idx, p_idx]
-        if param == 'Slope':
-            ax.axhline(y=1, c='gray', ls='--', lw=3)
-            sns.violinplot(plot_df.loc[filt], color='C0', ax=ax)
-        elif param == 'Intercept':
-            ax.axhline(y=0, c='gray', ls='--', lw=3)
-            sns.violinplot(plot_df.loc[filt], color='C0', ax=ax)
-        else:
-            sns.violinplot(plot_df.loc[filt], color='C0', ax=ax)
+        plot_violin_with_line(ax, plot_df.loc[filt], param)
         ax.set_title(f'{param} (n={filt.sum()})')
         ax.set_ylabel(f'Serum-plasma\n{param}')
     
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
 plt.tight_layout()
-
+plt.show()
 
 # Plot Figure 5: Inter-cohort agreement of scaling parameters.
 # Plot Supplementary Figure S10: Inter-cohort agreement of serum-plasma protein correlations. 
 filtr = FILTER_LIST[0]
 for param in ['Spearman', 'Slope', 'Intercept']:
     filt = s3['Filter'].isin(filtr)
-    prefix = param + '_'
+    prefix = param + ' '
+    cohorts = np.array(['CohortA', 'CohortB', 'CohortC'])
+    cols = [prefix + c for c in cohorts]
     
-    cols = s3.columns[s3.columns.str.startswith(prefix)]
     plot_df = s3[cols].copy()
     plot_df.rename({col: col[len(prefix):] for col in plot_df.columns}, axis=1, inplace=True)
     
