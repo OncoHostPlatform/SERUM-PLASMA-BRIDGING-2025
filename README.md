@@ -38,6 +38,6 @@ The following package dependencies are required:
   - `scikit-learn==1.5.2`
   - `lifelines==0.30.0`
 ## License
-This project is licensed under the GNU General Public License - see the LICENSE file for details.
+This project is licensed under the BSD 3-Clause License - see the LICENSE file for details.
 ## Contact
 For questions regarding the code or manuscript, please open an issue in this repository or contact the corresponding author(s) (contact information will be updated upon publication).
