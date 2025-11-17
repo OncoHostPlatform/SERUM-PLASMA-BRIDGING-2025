@@ -34,7 +34,9 @@ The following package dependencies are required:
   - `pandas==2.2.3`
   - `scipy==1.14.1`
   - `matplotlib==3.9.4`
-  - `seaborn==0.13.2`
+  - `seaborn==0.13.0`
+  - `scikit-learn==1.5.2`
+  - `lifelines==0.30.0`
 ## License
 This project is licensed under the GNU General Public License - see the LICENSE file for details.
 ## Contact
