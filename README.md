@@ -1,11 +1,11 @@
 # SERUM-PLASMA-BRIDGING-2025
 ## Overview
-This repository contains the code used to generate figures for the manuscript "Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies" (currently under review). This study presents a computational approach for bridging between serum and plasma proteomic datasets derived from the aptamer-based SomaScan assay, enabling cross-specimen data use in the context of the PROphet model designed to predict immunotherapy outcomes.
+This repository contains the code used to generate figures for the manuscript "Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies" 2026. This study presents a computational approach for bridging between serum and plasma proteomic datasets derived from the aptamer-based SomaScan assay, enabling cross-specimen data use in the context of the PROphet model designed to predict immunotherapy outcomes.
 ## Citation
-If you use this code or data in your research, please cite:
-Lahav, C., Dahan, N., Harel, M., Elon, Y., Sela, I., Geyer, P.E., Schneider, M.A., Muley, T., Bacchiocchi, A., Marte, J., Floudas, C.S., Halaban, R., Sznol, M., Christopoulos, P., Gulley, J.L. Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies. 2025. (Under review)
+If you use this code or data in your research, please cite:  
+C. Lahav et al., “Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies,” Journal of Pharmaceutical and Biomedical Analysis, p. 117421, Feb. 2026, doi: 10.1016/j.jpba.2026.117421.
 ## Data
-The code in this repository requires supplementary tables that will be available upon publication of the manuscript. Place the files in a subfolder named data.
+The `generate_manuscript_figures.py` script requires supplementary tables that will be available upon publication of the manuscript. Place the files in a subfolder named "data".
 ## Code
 This repository consists of the following Python files:
 - `generate_manuscript_figures.py` - generates figures presented in the manuscript as listed below.
@@ -40,4 +40,4 @@ The following package dependencies are required:
 ## License
 This project is licensed under the BSD 3-Clause License - see the LICENSE file for details.
 ## Contact
-For questions regarding the code or manuscript, please open an issue in this repository or contact the corresponding author(s) (contact information will be updated upon publication).
+For questions regarding the code or manuscript, please open an issue in this repository or contact the corresponding author.
