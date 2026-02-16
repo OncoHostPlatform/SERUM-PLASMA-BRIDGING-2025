@@ -64,8 +64,8 @@ white_blue_red = matplotlib.colors.LinearSegmentedColormap.from_list('WhiteBlueR
 
 plt.rcParams.update({'font.size': 20})
 
-#%% Load Supplementary Table S7: Serum-plasma correlation
-s1 = pd.read_excel(r'data\Supplementary Table S7.xlsx', index_col='SeqId')
+#%% Load Supplementary Table S8: Serum-plasma correlation
+s1 = pd.read_excel(r'data\Supplementary Table S8.xlsx', index_col='SeqId')
 
 # % significant correlations
 pct_significant = (s1['Spearman p-value'] < 0.05).mean() * 100
@@ -145,11 +145,11 @@ ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 plt.show()
 
-#%% Load Supplementary Table S9: Medians and difference between internal and external cohorts
-s2 = pd.read_excel(r'data\Supplementary Table S9.xlsx', index_col='SeqId')
+#%% Load Supplementary Table S11: Medians and difference between internal and external cohorts
+s2 = pd.read_excel(r'data\Supplementary Table S11.xlsx', index_col='SeqId')
 
-# Plot Supplementary Figure S7B: Concordance between internal and external plasma datasets
-# Plot Supplementary Figure S8B: Concordance between internal and external serum datasets. 
+# Plot Supplementary Figure S8B: Concordance between internal and external plasma datasets
+# Plot Supplementary Figure S9B: Concordance between internal and external serum datasets. 
 bins = np.linspace(-5.084463885736609, 4.774182194065542, 101)
 CONCORD_ORDER = np.array([['CohortA Plasma, Diff', 'CohortB Plasma, Diff', 'CohortC Plasma, Diff'], ['CohortA Serum, Diff', 'CohortB Serum, Diff', 'CohortC Serum, Diff']])
 fig, axes = plt.subplots(nrows=CONCORD_ORDER.shape[0], ncols=CONCORD_ORDER.shape[1]*2, sharey=True, figsize=(15*0.8,20*0.8),  width_ratios=[2,1]*CONCORD_ORDER.shape[1])
@@ -176,11 +176,11 @@ for j, i in np.ndindex(CONCORD_ORDER.shape):
 plt.tight_layout()
 
 
-#%% Load Supplementary Table S12: Scaling factors by cohort
-s3 = pd.read_excel(r'data\Supplementary Table S12.xlsx', index_col='SeqId')
+#%% Load Supplementary Table S14: Scaling factors by cohort
+s3 = pd.read_excel(r'data\Supplementary Table S14.xlsx', index_col='SeqId')
 
 
-# Plot Supplementary Figure S5B: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
+# Plot Supplementary Figure S6B: Serum-plasma Spearman correlation distributions of protein measurements in different protein sets.
 FILTER_ORDER_DISPLAY = ['Pre-analytical\nexclusions', 'Robust\ncandidates', 'Clinically-relevant\nmarkers']
 FILTER_ORDER = [o.replace('\n', ' ') for o in FILTER_ORDER_DISPLAY]
 group_protein_count = [(s3['Filter'] == o.replace('\n', ' ')).sum() for o in FILTER_ORDER]
@@ -195,7 +195,7 @@ ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 
 
-# Plot Supplementary Figure S9: Comparison of linear scaling parameters derived from different cohorts.
+# Plot Supplementary Figure S10: Comparison of linear scaling parameters derived from different cohorts.
 PARAM_LIST = ['Spearman', 'Slope', 'Intercept']
 plt.rcParams.update({'font.size': 20})
 FILTER_LIST = [['Pre-analytical exclusions', 'Robust candidates', 'Clinically-relevant markers'], ['Clinically-relevant markers']]
@@ -230,7 +230,7 @@ plt.tight_layout()
 plt.show()
 
 # Plot Figure 5: Inter-cohort agreement of scaling parameters.
-# Plot Supplementary Figure S10: Inter-cohort agreement of serum-plasma protein correlations. 
+# Plot Supplementary Figure S11: Inter-cohort agreement of serum-plasma protein correlations. 
 filtr = FILTER_LIST[0]
 for param in ['Spearman', 'Slope', 'Intercept']:
     filt = s3['Filter'].isin(filtr)

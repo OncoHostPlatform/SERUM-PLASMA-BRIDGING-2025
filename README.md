@@ -1,6 +1,8 @@
 # SERUM-PLASMA-BRIDGING-2025
 ## Overview
-This repository contains the code used to generate figures for the manuscript "Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies" 2026. This study presents a computational approach for bridging between serum and plasma proteomic datasets derived from the aptamer-based SomaScan assay, enabling cross-specimen data use in the context of the PROphet model designed to predict immunotherapy outcomes.
+This repository contains the code used to generate figures for the manuscript [C. Lahav et al., "Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies", 2026](https://doi.org/10.1016/j.jpba.2026.117421). This study presents a computational approach for bridging between serum and plasma proteomic datasets derived from the aptamer-based SomaScan assay, enabling cross-specimen data use in predictive biomarkers development.
+## Why it matters
+This methodology enables integrating biobank data in liquid proteomics, thus expanding patient cohorts for faster biomarker discovery and validation.
 ## Citation
 If you use this code or data in your research, please cite:  
 C. Lahav et al., “Bridging the Gap: A Systematic Approach to Integrating Serum and Plasma Proteomic Datasets for Biomarker Studies,” Journal of Pharmaceutical and Biomedical Analysis, p. 117421, Feb. 2026, doi: 10.1016/j.jpba.2026.117421.
